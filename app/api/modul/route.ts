@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const modul = await prisma.modul.create({
     data: {
       ...data,
-      userId: session.user.id,
+      userId: session.user,id,
     },
   });
 
