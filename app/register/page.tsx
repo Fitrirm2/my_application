@@ -10,14 +10,14 @@ export default function RegisterPage() {
     const res = await fetch("/api/register", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // DITAMBAHKAN
+        "Content-Type": "application/json", 
       },
       body: JSON.stringify(form),
     });
 
     if (res.ok) {
-      localStorage.setItem("verifyEmail", form.email); // SIMPAN EMAIL
-      router.push("/verify"); // ARAHKAN KE HALAMAN VERIFIKASI
+      localStorage.setItem("verifyEmail", form.email); 
+      router.push("/verify"); 
     } else {
       alert("Gagal Daftar, silahkan coba lagi");
     }
