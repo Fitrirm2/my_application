@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
-import { type RouteContext } from "next";
 
-export async function PUT(req: NextRequest, { params }: RouteContext) {
-  const { id } = params;
+export async function PUT(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params;
   const data = await req.json();
 
   try {
@@ -17,15 +16,18 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Modul tidak ditemukan atau gagal update" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Modul tidak ditemukan atau gagal update" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: RouteContext) {
-  const { id } = params;
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params;
 
   try {
     await prisma.modul.delete({
@@ -34,9 +36,12 @@ export async function DELETE(req: NextRequest, { params }: RouteContext) {
 
     return new Response(null, { status: 204 });
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Gagal hapus modul" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Gagal hapus modul" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }
