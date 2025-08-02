@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest, context: { params: { id: string } }) {
   const { id } = context.params;
@@ -11,11 +11,17 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
       data,
     });
 
-    return NextResponse.json(updated);
+    return new Response(JSON.stringify(updated), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Modul tidak ditemukan atau gagal update" },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: "Modul tidak ditemukan atau gagal update" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
     );
   }
 }
@@ -28,11 +34,14 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
       where: { id },
     });
 
-    return new NextResponse(null, { status: 204 });
+    return new Response(null, { status: 204 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Gagal hapus modul" },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: "Gagal hapus modul" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
     );
   }
 }
